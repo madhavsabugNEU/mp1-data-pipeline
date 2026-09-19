@@ -28,6 +28,7 @@ def setup_logging(verbose=False):
 
 
 def parse_arguments():
+    """Parse command-line arguments"""
     parser = argparse.ArgumentParser(description="Data processing pipeline")
     parser.add_argument("-i", "--input", required=True, help="Path to input file")
     parser.add_argument("-o", "--output", required=True, help="Path to output file")
@@ -37,6 +38,7 @@ def parse_arguments():
 
 
 def validate_input(filepath):
+    """Check whether the input path exists and is a file."""
     if Path(filepath).is_file():
         logger.info(f"Input file validated: {filepath}")
         return True
