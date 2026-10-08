@@ -12,6 +12,8 @@ import argparse
 import logging
 import sys
 from pathlib import Path
+from data_processor import process_data, create_cleaning_report
+
 
 
 logger = logging.getLogger(__name__)
