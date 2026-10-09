@@ -52,13 +52,13 @@ def remove_outliers(df, columns, method, threshold):
             lower = q1 - threshold * iqr
             upper = q3 + threshold * iqr
             is_outlier = (series < lower) | (series > upper)
-            result = result[is_outlier]
+            result = result[~is_outlier]
             logger.debug("%s: lower=%s, upper=%s, removed=%d", col,lower, upper, rows_before - len(result))
         else:
             z_scores = (series - series.mean())/ series.std()
             is_outlier = z_scores.abs() > threshold
-            result = result[is_outlier]
-            logger.debug("%s: zscore threshold=%s, removed=%d",col, lower, upper, rows_before - len(result))
+            result = result[~is_outlier]
+            logger.debug("%s: zscore threshold=%s, removed=%d", col, threshold, rows_before - len(result))
     return result 
 
 
