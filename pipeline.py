@@ -24,7 +24,7 @@ def setup_logging(verbose=False):
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
         level=level,
-        format="%(asctime)s %(levelname)-8s %(message)s",
+        format="%(asctime)s %(levelname)-8s %(name)s — %(message)s",
         datefmt="%H:%M:%S"
     )
 
@@ -36,6 +36,7 @@ def parse_arguments():
     parser.add_argument("-o", "--output", required=True, help="Path to output file")
     parser.add_argument("--format", choices=["csv", "json"], default="csv", help="Output format")
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
+    parser.add_argument("--config", required=True, help="Path to the YAML config file")
     return parser.parse_args()
 
 
@@ -59,10 +60,29 @@ def main():
     if not is_valid:
         sys.exit(1)
 
+    is_valid = validate_input(args.config)
+    if not is_valid:
+        sys.exit(1)
+
     try:
         data = load_data(args.input)
+        config = load_data(args.config)
     except ValueError:
         sys.exit(1)
+
+    df_original = data.copy()
+
+    try:
+        cleaned = process_data(data, config)
+    except ValueError:
+        sys.exit(1)
+
+    report = create_cleaning_report(df_original, cleaned)
+    print(report)
+    logger.info(f"Processing complete: {report['rows_before']} -> {report['rows_after']} rows")
+
+    cleaned.to_csv(args.output, index = False)
+    logger.info(f"Saved cleaned data to {args.output}")
 
 
 if __name__ == "__main__":
