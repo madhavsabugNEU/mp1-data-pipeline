@@ -1,12 +1,3 @@
-"""
-Data Processing Pipeline
-
-DS 3500 - MP1
-
-Usage:
-    python pipeline.py --input fixtures/sample_data.csv --output output/clean.csv --config config/config.yaml
-    python pipeline.py --input fixtures/sample_data.csv --output output/clean.csv --config config/config.yaml --verbose
-"""
 import argparse
 import logging
 import sys
