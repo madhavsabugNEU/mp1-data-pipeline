@@ -3,12 +3,6 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-# src/utils.py
-import logging
-from pathlib import Path
-
-logger = logging.getLogger(__name__)
-
 
 def setup_logging(verbose=False):
     """Configure logging"""
